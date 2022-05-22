@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using todo_app.Infrastructure;
 
 namespace todo_app
 {
@@ -29,6 +30,7 @@ namespace todo_app
             services.AddRazorPages();
             services.AddDbContext<AuthDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AuthConnectionString")));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AuthDbContext>();
+            services.AddDbContext<TodoContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AuthConnectionString")));
 
             services.ConfigureApplicationCookie(config => {
                 config.LoginPath = "/Login";
@@ -61,6 +63,12 @@ namespace todo_app
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                /*
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Todo}/{action=Index}/{id?}"
+                );
+                */
             });
         }
     }

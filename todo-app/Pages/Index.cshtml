@@ -1,10 +1,46 @@
 ﻿@page
-@model IndexModel
+@model todo_app.Controllers.IndexModel
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager;
+
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (SignInManager.IsSignedIn(User)) {
+    <h1>My todos</h1>
+} else {
+    <h1>Login to see your todos!</h1>
+}
+
+@if (SignInManager.IsSignedIn(User)) {
+    <p>
+        <a asp-page="AddTodo">Create New Todo</a>
+    </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TodoList) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserEmail)
+                    </td>
+                    <td>
+                        <a asp-page="/EditTodo" asp-route-id="@item.Id">Edit</a> |
+
+                        <a asp-page="/DeleteTodo" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
