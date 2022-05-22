@@ -36,6 +36,8 @@ namespace todo_app.Controllers {
             _context.todoList.Add(TodoList);
             await _context.SaveChangesAsync();
 
+            TempData["Success"] = "The item has been added!";
+
             return RedirectToPage("Index");
         }
     }

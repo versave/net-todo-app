@@ -57,6 +57,8 @@ namespace todo_app.Controllers {
                 }
             }
 
+            TempData["Success"] = "The item has been updated!";
+
             return RedirectToPage("./Index");
         }
 
